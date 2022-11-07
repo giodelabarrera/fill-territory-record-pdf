@@ -5,23 +5,22 @@ async function createPDF() {
   const document = await PDFDocument.load(readFileSync("./S-13_S.pdf"));
 
   // add territory numbers
-  const territoryNumbers = createTerritoryNumbers(1);
+  const territoryNumbers = createTerritoryNumbers(11);
   addTerritoryNumbers(document, territoryNumbers);
 
-  //   const fields = document.getForm().getFields();
-  //   fields.forEach((field) => {
-  //     // debugger;
-  //     // const type = field.constructor.name;
-  //     // const name = field.getName();
-  //     // const text =
-  //     if (field.getName().startsWith("Name")) {
-  //       field.setText("Abril De la Barrera");
-  //     }
-  //     if (field.getName().startsWith("Date")) {
-  //       field.setText("02/12/2022");
-  //     }
-  //     // console.log(`${type}: ${name} - ${text}`);
-  //   });
+  const fields = document.getForm().getFields();
+  fields.forEach((field) => {
+    // const type = field.constructor.name;
+    const name = field.getName();
+    field.setText(name);
+
+    // if (field.getName().startsWith("Name")) {
+    // }
+    // if (field.getName().startsWith("Date")) {
+    //   field.setText("02/12/2022");
+    // }
+    // console.log(`${type}: ${name} - ${text}`);
+  });
 
   //   const courierBoldFont = await document.embedFont(StandardFonts.Courier);
   //   const firstPage = document.getPage(0);
@@ -67,6 +66,18 @@ function addTerritoryNumbers(document, territoryNumbers) {
     const field = form.getField(fieldName);
     field.setText(String(territoryNumbers[index]));
   });
+  // form.getField("Name_001").setText("Name_001");
+  // form.getField("Date_001").setText("Date_001");
+  // form.getField("Date_002").setText("Date_002");
+  // form.getField("Name_002").setText("Name_002");
+  // form.getField("Date_004").setText("Date_004");
+  // form.getField("Date_005").setText("Date_005");
+  // form.getField("Name_005").setText("Name_005");
+  // form.getField("Date_011").setText("Date_011");
+  // form.getField("Date_012").setText("Date_012");
+  // form.getField("Name_006").setText("Name_006");
+  // form.getField("Date_013").setText("Date_013");
+  // form.getField("Date_014").setText("Date_014");
 }
 
 createPDF().catch((err) => console.log(err));
@@ -84,3 +95,13 @@ Date_381
 
 // TODO
 // write territory numbers
+
+// registries
+// number
+// is there number?
+// is number 1
+// Name_001
+
+export function getRegistryCellMeta(columnNumber, rowNumber) {}
+
+export function addRegistry(document, columnNumber, columnFile, registry) {}
