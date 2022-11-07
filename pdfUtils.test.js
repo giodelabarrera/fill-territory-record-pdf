@@ -3,9 +3,17 @@ import {
   getPublisherFieldName,
   getRegistryFieldNames,
   getStartDateFieldName,
-} from "./index";
+  getTerritoryFieldName,
+} from "./pdfUtils";
 
-test("retrieve publisher field name", () => {
+test("should get territory field name", () => {
+  expect(getTerritoryFieldName(1)).toEqual("Terr_1");
+  expect(getTerritoryFieldName(2)).toEqual("Terr_2");
+  expect(getTerritoryFieldName(3)).toEqual("Terr_3");
+  expect(getTerritoryFieldName(4)).toEqual("Terr_4");
+});
+
+test("should get publisher field name", () => {
   expect(getPublisherFieldName({ column: 1, row: 1 })).toEqual("Name_001");
   expect(getPublisherFieldName({ column: 1, row: 2 })).toEqual("Name_006");
   expect(getPublisherFieldName({ column: 2, row: 1 })).toEqual("Name_002");
@@ -13,7 +21,7 @@ test("retrieve publisher field name", () => {
   expect(getPublisherFieldName({ column: 5, row: 8 })).toEqual("Name_040");
 });
 
-test("retrieve start date field name", () => {
+test("should get start date field name", () => {
   expect(getStartDateFieldName({ column: 1, row: 1 })).toEqual("Date_001");
   expect(getStartDateFieldName({ column: 1, row: 2 })).toEqual("Date_011");
   expect(getStartDateFieldName({ column: 2, row: 1 })).toEqual("Date_003");
@@ -21,7 +29,7 @@ test("retrieve start date field name", () => {
   expect(getStartDateFieldName({ column: 5, row: 8 })).toEqual("Date_079");
 });
 
-test("retrieve end date field name", () => {
+test("should get end date field name", () => {
   expect(getEndDateFieldName({ column: 1, row: 1 })).toEqual("Date_002");
   expect(getEndDateFieldName({ column: 1, row: 2 })).toEqual("Date_012");
   expect(getEndDateFieldName({ column: 2, row: 1 })).toEqual("Date_004");
@@ -29,7 +37,7 @@ test("retrieve end date field name", () => {
   expect(getEndDateFieldName({ column: 5, row: 8 })).toEqual("Date_080");
 });
 
-test("retrieve registry cell meta", () => {
+test("should get registry cell meta", () => {
   expect(getRegistryFieldNames({ column: 1, row: 12 })).toEqual({
     publisher: "Name_056",
     startDate: "Date_111",
