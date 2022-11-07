@@ -1,75 +1,30 @@
 const { PDFDocument, StandardFonts } = require("pdf-lib");
 const { writeFileSync, readFileSync } = require("fs");
 
-const { getTerritoryFieldName } = require("./pdfUtils");
+const { fillTerritoryNumberToPDF } = require("./pdfUtils");
 
-async function createFilledPDF(registries) {
+async function createFilledPDF(registryMap) {
   const document = await PDFDocument.load(readFileSync("./S-13_S.pdf"));
+  const form = document.getForm();
 
-  // add territory numbers
-  const territoryNumbers = createTerritoryNumbers(11);
-  fillTerritoryNumbersToPDF(document, territoryNumbers);
-
-  const fields = document.getForm().getFields();
-  fields.forEach((field) => {
-    // const type = field.constructor.name;
-    const name = field.getName();
-    field.setText(name);
-
-    // if (field.getName().startsWith("Name")) {
-    // }
-    // if (field.getName().startsWith("Date")) {
-    //   field.setText("02/12/2022");
-    // }
-    // console.log(`${type}: ${name} - ${text}`);
+  // fill territory numbers
+  const territoryNumbers = Array.from(registryMap.keys());
+  const territoryIndices = createNumbersFromTo(1, 10);
+  territoryIndices.forEach((territoryIndex, index) => {
+    fillTerritoryNumberToPDF(document, territoryIndex, territoryNumbers[index]);
   });
 
-  //   const courierBoldFont = await document.embedFont(StandardFonts.Courier);
-  //   const firstPage = document.getPage(0);
-
-  //   firstPage.moveTo(72, 570);
-  //   firstPage.drawText(new Date().toUTCString(), {
-  //     font: courierBoldFont,
-  //     size: 12,
-  //   });
-
-  //   firstPage.moveTo(105, 530);
-  //   firstPage.drawText("Ms. Jane,", {
-  //     font: courierBoldFont,
-  //     size: 12,
-  //   });
-
-  //   firstPage.moveTo(72, 330);
-  //   firstPage.drawText("John Doe \nSr. Vice President Engineering \nLogRocket", {
-  //     font: courierBoldFont,
-  //     size: 12,
-  //     lineHeight: 10,
-  //   });
+  // TODO: fill registry cells
 
   writeFileSync("S-13_S_fill.pdf", await document.save());
 }
 
-function createTerritoryNumbers(
-  startTerritoryNumber,
-  territoryNumbersLen = 10
-) {
-  return Array.from(
-    { length: territoryNumbersLen },
-    (_, i) => startTerritoryNumber + i
-  );
+function createNumbersFromTo(from, to) {
+  return Array.from({ length: to }, (_, i) => from + i);
 }
 
-function fillTerritoryNumbersToPDF(document, territoryNumbers) {
-  const form = document.getForm();
-
-  const pdfTerritoryNumbers = createTerritoryNumbers(1);
-  pdfTerritoryNumbers.forEach((pdfTerritoryNumber, index) => {
-    const fieldName = getTerritoryFieldName(pdfTerritoryNumber);
-    const field = form.getField(fieldName);
-    field.setText(String(territoryNumbers[index]));
-  });
-}
-
-function fillRegistryToPDF(document, registryCell, registry) {}
-
-createFilledPDF().catch((err) => console.log(err));
+const registryMap = new Map();
+createNumbersFromTo(1, 10).forEach((number) => {
+  registryMap.set(number, []);
+});
+createFilledPDF(registryMap).catch((err) => console.log(err));
