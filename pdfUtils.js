@@ -13,14 +13,21 @@ function fillRegistryToPDF(document, registryCell, registry) {
   publisherField.setText(String(registry.publisher));
 
   const startDateField = form.getField(fieldNames.startDate);
-  // TODO: format Date to ES
-  startDateField.setText(String(registry.startDate));
 
-  if (fieldNames.endDate) {
+  startDateField.setText(formatRegistryDate(registry.startDate));
+
+  if (registry.endDate) {
     const endDateField = form.getField(fieldNames.endDate);
-    // TODO: format Date to ES
-    endDateField.setText(String(registry.endDate));
+    endDateField.setText(formatRegistryDate(registry.endDate));
   }
+}
+
+function formatRegistryDate(date) {
+  return new Intl.DateTimeFormat("es-ES", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
 }
 
 function getTerritoryFieldName(territoryNumber) {
