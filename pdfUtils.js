@@ -1,3 +1,32 @@
+const { PDFDocument } = require("pdf-lib");
+const { writeFileSync, readFileSync } = require("fs");
+
+const { createNumbersFromTo } = require("./utils");
+
+async function createFilledPDF(registryMap) {
+  const document = await PDFDocument.load(readFileSync("./S-13_S.pdf"));
+
+  const territoryNumbers = Array.from(registryMap.keys());
+  const territoryIndices = createNumbersFromTo(1, 10);
+
+  // fill territory number
+  territoryIndices.forEach((territoryIndex, index) => {
+    fillTerritoryNumberToPDF(document, territoryIndex, territoryNumbers[index]);
+  });
+
+  // fill registries
+  territoryIndices.forEach((territoryIndex, index) => {
+    const registries = registryMap.get(territoryNumbers[index]);
+
+    registries.forEach((registry, index) => {
+      const registryCell = { column: territoryIndex, row: index + 1 };
+      fillRegistryToPDF(document, registryCell, registry);
+    });
+  });
+
+  writeFileSync("S-13_S_fill.pdf", await document.save());
+}
+
 function fillTerritoryNumberToPDF(document, territoryIndex, territoryNumber) {
   const fieldName = getTerritoryFieldName(territoryIndex);
   const form = document.getForm();
@@ -70,6 +99,7 @@ function getRegistryFieldNames(registryCell) {
 }
 
 module.exports = {
+  createFilledPDF,
   fillTerritoryNumberToPDF,
   fillRegistryToPDF,
   getTerritoryFieldName,
