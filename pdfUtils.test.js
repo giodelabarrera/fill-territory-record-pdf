@@ -19,6 +19,8 @@ test("should get publisher field name", () => {
   expect(getPublisherFieldName({ column: 2, row: 1 })).toEqual("Name_002");
   expect(getPublisherFieldName({ column: 5, row: 1 })).toEqual("Name_005");
   expect(getPublisherFieldName({ column: 5, row: 8 })).toEqual("Name_040");
+  expect(getPublisherFieldName({ column: 1, row: 27 })).toEqual("Name_131");
+  expect(getPublisherFieldName({ column: 2, row: 27 })).toEqual("Name_132");
 });
 
 test("should get start date field name", () => {
@@ -27,6 +29,8 @@ test("should get start date field name", () => {
   expect(getStartDateFieldName({ column: 2, row: 1 })).toEqual("Date_003");
   expect(getStartDateFieldName({ column: 5, row: 1 })).toEqual("Date_009");
   expect(getStartDateFieldName({ column: 5, row: 8 })).toEqual("Date_079");
+  expect(getStartDateFieldName({ column: 1, row: 27 })).toEqual("Date_261");
+  expect(getStartDateFieldName({ column: 2, row: 27 })).toEqual("Date_263");
 });
 
 test("should get end date field name", () => {
@@ -35,6 +39,8 @@ test("should get end date field name", () => {
   expect(getEndDateFieldName({ column: 2, row: 1 })).toEqual("Date_004");
   expect(getEndDateFieldName({ column: 5, row: 1 })).toEqual("Date_010");
   expect(getEndDateFieldName({ column: 5, row: 8 })).toEqual("Date_080");
+  expect(getEndDateFieldName({ column: 1, row: 27 })).toEqual("Date_262");
+  expect(getEndDateFieldName({ column: 2, row: 27 })).toEqual("Date_264");
 });
 
 test("should get registry cell meta", () => {
@@ -62,5 +68,10 @@ test("should get registry cell meta", () => {
     publisher: "Name_060",
     startDate: "Date_119",
     endDate: "Date_120",
+  });
+  expect(getRegistryFieldNames({ column: 3, row: 27 })).toEqual({
+    publisher: "Name_133",
+    startDate: "Date_265",
+    endDate: "Date_266",
   });
 });
