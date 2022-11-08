@@ -1,4 +1,7 @@
-const { createFilledPDF } = require("./pdfUtils");
+const { PDFDocument } = require("pdf-lib");
+const { writeFileSync, readFileSync } = require("fs");
+
+const { fillPDF } = require("./pdfUtils");
 const { createNumbersFromTo } = require("./utils");
 
 const registryMap = new Map();
@@ -24,6 +27,10 @@ registryMap.set(12, [
 createNumbersFromTo(13, 20).forEach((number) => {
   registryMap.set(number, []);
 });
-createFilledPDF(registryMap, "S-13_S_fill.pdf").catch((err) =>
-  console.log(err)
-);
+
+(async () => {
+  const document = await PDFDocument.load(readFileSync("./S-13_S.pdf"));
+  fillPDF(document, registryMap);
+
+  writeFileSync("S-13_S_fill.pdf", await document.save());
+})().catch((err) => console.log(err));
