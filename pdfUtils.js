@@ -18,8 +18,6 @@ function fillPDF(document, registryMap) {
       fillRegistryToPDF(document, registryCell, registry);
     });
   });
-
-  return document;
 }
 
 function fillTerritoryNumberToPDF(document, territoryIndex, territoryNumber) {
