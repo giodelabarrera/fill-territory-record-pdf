@@ -2,20 +2,32 @@ const { createNumbersFromTo } = require("./utils");
 
 function fillPDF(document, registryMap) {
   const territoryNumbers = Array.from(registryMap.keys());
-  const territoryIndices = createNumbersFromTo(1, 10);
+  const territoryIndices = createNumbersFromTo(1, registryMap.size);
 
   // fill territory number
-  territoryIndices.forEach((territoryIndex, index) => {
-    fillTerritoryNumberToPDF(document, territoryIndex, territoryNumbers[index]);
+  territoryNumbers.forEach((territoryNumber, index) => {
+    fillTerritoryNumberToPDF(
+      document,
+      territoryIndices[index],
+      territoryNumber
+    );
   });
 
   // fill registries
-  territoryIndices.forEach((territoryIndex, index) => {
-    const registries = registryMap.get(territoryNumbers[index]);
+  territoryNumbers.forEach((territoryNumber, index) => {
+    const registries = registryMap.get(territoryNumber);
+    const isSecondPage = territoryIndices[index] > 5;
+    const column = isSecondPage
+      ? territoryIndices[index] - 5
+      : territoryIndices[index];
 
     registries.forEach((registry, index) => {
-      const registryCell = { column: territoryIndex, row: index + 1 };
-      fillRegistryToPDF(document, registryCell, registry);
+      const ROWS_BY_PAGE = 25;
+      if (index < ROWS_BY_PAGE) {
+        const row = isSecondPage ? ROWS_BY_PAGE + index + 1 : index + 1;
+        const registryCell = { column, row };
+        fillRegistryToPDF(document, registryCell, registry);
+      }
     });
   });
 }
