@@ -19,5 +19,8 @@ const TO_TERRITORY = 10;
 
   const document = await PDFDocument.load(readFileSync("./S-13_S.pdf"));
   fillPDF(document, registryMap);
-  writeFileSync("S-13_S_fill.pdf", await document.save());
+  writeFileSync(
+    `S-13_S_${FROM_TERRITORY}_${TO_TERRITORY}.pdf`,
+    await document.save()
+  );
 })();
