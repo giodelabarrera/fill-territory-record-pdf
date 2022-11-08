@@ -3,7 +3,7 @@ const { writeFileSync, readFileSync } = require("fs");
 
 const { createNumbersFromTo } = require("./utils");
 
-async function createFilledPDF(registryMap) {
+async function createFilledPDF(registryMap, outputPath) {
   const document = await PDFDocument.load(readFileSync("./S-13_S.pdf"));
 
   const territoryNumbers = Array.from(registryMap.keys());
@@ -24,7 +24,7 @@ async function createFilledPDF(registryMap) {
     });
   });
 
-  writeFileSync("S-13_S_fill.pdf", await document.save());
+  writeFileSync(outputPath, await document.save());
 }
 
 function fillTerritoryNumberToPDF(document, territoryIndex, territoryNumber) {
