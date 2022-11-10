@@ -1,4 +1,4 @@
-const { createNumbersFromTo } = require("./utils");
+import { createNumbersFromTo } from "./utils.js";
 
 function fillPDF(document, registryMap) {
   const territoryNumbers = Array.from(registryMap.keys());
@@ -103,7 +103,7 @@ function getRegistryFieldNames(registryCell) {
   };
 }
 
-module.exports = {
+export {
   fillPDF,
   fillTerritoryNumberToPDF,
   fillRegistryToPDF,

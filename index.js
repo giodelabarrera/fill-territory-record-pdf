@@ -1,9 +1,12 @@
-const { PDFDocument } = require("pdf-lib");
-const { writeFileSync, readFileSync, createReadStream } = require("fs");
-const path = require("path");
+import { PDFDocument } from "pdf-lib";
+import { writeFileSync, readFileSync, createReadStream } from "fs";
+import path from "path";
+import * as url from "url";
 
-const { fillPDF } = require("./pdfUtils");
-const { mapCSVRowsToMap } = require("./csvUtils");
+import { fillPDF } from "./pdfUtils.js";
+import { mapCSVRowsToMap } from "./csvUtils.js";
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 
 const FROM_TERRITORY = 1;
 const TO_TERRITORY = 10;
