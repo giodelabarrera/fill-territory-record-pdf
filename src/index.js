@@ -21,7 +21,7 @@ const registryMap = await mapCSVRowsToMap(
   TO_TERRITORY
 );
 
-const pdfBuffer = await readFile("./S-13_S.pdf");
+const pdfBuffer = await readFile(join(__dirname, "assets", "S-13_S.pdf"));
 const document = await PDFDocument.load(pdfBuffer);
 fillPDF(document, registryMap);
 await writeFile(
