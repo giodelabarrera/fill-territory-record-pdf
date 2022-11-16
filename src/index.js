@@ -8,7 +8,6 @@ import { fillPDF } from "./pdfUtils.js";
 import { mapCSVRowsToMap } from "./csvUtils.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-console.log(__dirname);
 
 const FROM_TERRITORY = 1;
 const TO_TERRITORY = 10;

@@ -4,7 +4,7 @@ import {
   getRegistryFieldNames,
   getStartDateFieldName,
   getTerritoryFieldName,
-} from "./pdfUtils";
+} from "./pdfUtils.js";
 
 test("should get territory field name", () => {
   expect(getTerritoryFieldName(1)).toEqual("Terr_1");
