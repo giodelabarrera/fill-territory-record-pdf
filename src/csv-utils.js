@@ -1,6 +1,6 @@
-import csv from "@fast-csv/parse";
+const csv = require("@fast-csv/parse");
 
-import { createNumbersFromTo } from "./utils.js";
+const { createNumbersFromTo } = require("./utils.js");
 
 async function mapCSVRowsToMap(csvStream, fromTerritory, toTerritory) {
   return new Promise((res, rej) => {
@@ -39,4 +39,4 @@ async function mapCSVRowsToMap(csvStream, fromTerritory, toTerritory) {
   });
 }
 
-export { mapCSVRowsToMap };
+module.exports = { mapCSVRowsToMap };

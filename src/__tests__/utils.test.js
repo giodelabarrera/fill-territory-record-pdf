@@ -1,4 +1,4 @@
-import { createNumbersFromTo } from "../utils.js";
+const { createNumbersFromTo } = require("../utils.js");
 
 test("should get territory field name", () => {
   expect(createNumbersFromTo(1, 5)).toEqual([1, 2, 3, 4, 5]);

@@ -1,10 +1,10 @@
-import {
+const {
   getEndDateFieldName,
   getPublisherFieldName,
   getRegistryFieldNames,
   getStartDateFieldName,
   getTerritoryFieldName,
-} from "../pdfUtils.js";
+} = require("../pdf-utils.js");
 
 test("should get territory field name", () => {
   expect(getTerritoryFieldName(1)).toEqual("Terr_1");
