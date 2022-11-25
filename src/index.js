@@ -1,13 +1,10 @@
 const { PDFDocument } = require("pdf-lib");
 const { createReadStream } = require("fs");
 const { writeFile, readFile } = require("fs/promises");
-const { dirname, join } = require("path");
-const { fileURLToPath } = require("url");
+const { join } = require("path");
 
 const { fillPDF } = require("./pdf-utils.js");
 const { mapCSVRowsToMap } = require("./csv-utils.js");
-
-// const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const FROM_TERRITORY = 1;
 const TO_TERRITORY = 10;
