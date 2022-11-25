@@ -7,6 +7,9 @@
     "node": ">=18.2.1",
     "npm": ">=8"
   },
+  "bin": {
+    "@gdr/jw-fill-registry-pdf": "src/index.js"
+  },
   "scripts": {
     "start": "node src",
     "test": "jest"
