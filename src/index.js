@@ -1,9 +1,13 @@
 #!/usr/bin/env node
-const { join } = require("path");
+const yargsParser = require("yargs-parser");
 
 const { createFilledPDF } = require("./create-filled-pdf.js");
 
-const FROM_TERRITORY = 1;
-const csvPath = join(__dirname, "assets", "registries.csv");
+let args = process.argv.slice(2);
+const parsedArgs = yargsParser(args);
 
-createFilledPDF(csvPath, FROM_TERRITORY);
+const csvPath = parsedArgs._[0];
+const fromTerritory = Number(parsedArgs._[1]);
+const outDir = parsedArgs.outDir || process.cwd();
+
+createFilledPDF(csvPath, fromTerritory, outDir);

@@ -6,7 +6,7 @@ const { join } = require("path");
 const { fillPDF } = require("./pdf-utils.js");
 const { mapCSVRowsToMap } = require("./csv-utils.js");
 
-async function createFilledPDF(csvPath, fromTerritory = 1) {
+async function createFilledPDF(csvPath, fromTerritory = 1, outDir = ".") {
   const csvStream = createReadStream(csvPath);
   const toTerritory = fromTerritory + 9;
   const registryMap = await mapCSVRowsToMap(
@@ -19,7 +19,7 @@ async function createFilledPDF(csvPath, fromTerritory = 1) {
   const document = await PDFDocument.load(pdfBuffer);
   fillPDF(document, registryMap);
   await writeFile(
-    join(__dirname, `S-13_S_${fromTerritory}_${toTerritory}.pdf`),
+    join(outDir, `S-13_S_${fromTerritory}_${toTerritory}.pdf`),
     await document.save()
   );
 }
