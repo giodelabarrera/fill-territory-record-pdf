@@ -1,5 +1,5 @@
 {
-  "name": "@gdr/jw-fill-registry-pdf",
+  "name": "@gdr/create-registry-pdf",
   "version": "1.0.0",
   "description": "CLI for from a registry csv fill a registry pdf",
   "engines": {
