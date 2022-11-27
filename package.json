@@ -1,18 +1,19 @@
 {
-  "name": "rubi-oeste-registry-pdf",
+  "name": "@gdr/jw-fill-registry-pdf",
   "version": "1.0.0",
   "description": "CLI for from a registry csv fill a registry pdf",
-  "main": "index.js",
   "engines": {
     "node": ">=18.2.1",
     "npm": ">=8"
   },
+  "main": "src/index.js",
   "bin": {
-    "@gdr/jw-fill-registry-pdf": "src/index.js"
+    "gdr-create-registry-pdf": "./bin/gdr-create-registry-pdf.js"
   },
   "scripts": {
     "start": "node src",
-    "test": "jest"
+    "test": "jest",
+    "build": "swc src -o output.js"
   },
   "repository": {
     "type": "git",

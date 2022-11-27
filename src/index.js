@@ -1,13 +1,27 @@
-#!/usr/bin/env node
-const yargsParser = require("yargs-parser");
+const { PDFDocument } = require("pdf-lib");
+const { createReadStream } = require("fs");
+const { writeFile, readFile } = require("fs/promises");
+const { join } = require("path");
 
-const { createFilledPDF } = require("./create-filled-pdf.js");
+const { fillPDF } = require("./pdf-utils.js");
+const { mapCSVRowsToMap } = require("./csv-utils.js");
 
-let args = process.argv.slice(2);
-const parsedArgs = yargsParser(args);
+async function createRegistryPDF(csvPath, fromTerritory = 1, outDir = ".") {
+  const csvStream = createReadStream(csvPath);
+  const toTerritory = fromTerritory + 9;
+  const registryMap = await mapCSVRowsToMap(
+    csvStream,
+    fromTerritory,
+    toTerritory
+  );
 
-const csvPath = parsedArgs._[0];
-const fromTerritory = Number(parsedArgs._[1]);
-const outDir = parsedArgs.outDir || process.cwd();
+  const pdfBuffer = await readFile(join(__dirname, "assets", "S-13_S.pdf"));
+  const document = await PDFDocument.load(pdfBuffer);
+  fillPDF(document, registryMap);
+  await writeFile(
+    join(outDir, `S-13_S_${fromTerritory}_${toTerritory}.pdf`),
+    await document.save()
+  );
+}
 
-createFilledPDF(csvPath, fromTerritory, outDir);
+module.exports = { createRegistryPDF };
