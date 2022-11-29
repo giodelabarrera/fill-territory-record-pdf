@@ -3,7 +3,7 @@ const yargsParser = require("yargs-parser");
 
 const { createRegistryPDF } = require("../src/index.js");
 
-let args = process.argv.slice(2);
+const args = process.argv.slice(2);
 const parsedArgs = yargsParser(args);
 
 const csvPath = parsedArgs._[0];
