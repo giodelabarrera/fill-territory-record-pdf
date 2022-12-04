@@ -1,8 +1,8 @@
 const { createNumbersFromTo } = require("./utils.js");
 
-function fillPDF(document, registryMap) {
-  const territoryNumbers = Array.from(registryMap.keys());
-  const territoryIndices = createNumbersFromTo(1, registryMap.size);
+function fillPDF(document, recordMap) {
+  const territoryNumbers = Array.from(recordMap.keys());
+  const territoryIndices = createNumbersFromTo(1, recordMap.size);
 
   // fill territory number
   territoryNumbers.forEach((territoryNumber, index) => {
@@ -13,20 +13,20 @@ function fillPDF(document, registryMap) {
     );
   });
 
-  // fill registries
+  // fill records
   territoryNumbers.forEach((territoryNumber, index) => {
-    const registries = registryMap.get(territoryNumber);
+    const records = recordMap.get(territoryNumber);
     const isSecondPage = territoryIndices[index] > 5;
     const column = isSecondPage
       ? territoryIndices[index] - 5
       : territoryIndices[index];
 
-    registries.forEach((registry, index) => {
+    records.forEach((record, index) => {
       const ROWS_BY_PAGE = 25;
       if (index < ROWS_BY_PAGE) {
         const row = isSecondPage ? ROWS_BY_PAGE + index + 1 : index + 1;
-        const registryCell = { column, row };
-        fillRegistryToPDF(document, registryCell, registry);
+        const recordCell = { column, row };
+        fillRecordToPDF(document, recordCell, record);
       }
     });
   });
@@ -39,24 +39,24 @@ function fillTerritoryNumberToPDF(document, territoryIndex, territoryNumber) {
   field.setText(String(territoryNumber));
 }
 
-function fillRegistryToPDF(document, registryCell, registry) {
-  const fieldNames = getRegistryFieldNames(registryCell);
+function fillRecordToPDF(document, recordCell, record) {
+  const fieldNames = getRecordFieldNames(recordCell);
   const form = document.getForm();
 
   const publisherField = form.getField(fieldNames.publisher);
-  publisherField.setText(String(registry.publisher));
+  publisherField.setText(String(record.publisher));
 
   const startDateField = form.getField(fieldNames.startDate);
 
-  startDateField.setText(formatRegistryDate(registry.startDate));
+  startDateField.setText(formatRecordDate(record.startDate));
 
-  if (registry.endDate) {
+  if (record.endDate) {
     const endDateField = form.getField(fieldNames.endDate);
-    endDateField.setText(formatRegistryDate(registry.endDate));
+    endDateField.setText(formatRecordDate(record.endDate));
   }
 }
 
-function formatRegistryDate(date) {
+function formatRecordDate(date) {
   return new Intl.DateTimeFormat("es-ES", {
     year: "numeric",
     month: "2-digit",
@@ -68,48 +68,48 @@ function getTerritoryFieldName(territoryNumber) {
   return `Terr_${territoryNumber}`;
 }
 
-function getPublisherFieldName(registryCell) {
+function getPublisherFieldName(recordCell) {
   const NUMBER_OF_COLUMNS = 5;
-  const { column, row } = registryCell;
+  const { column, row } = recordCell;
 
   const cellNumber = column + NUMBER_OF_COLUMNS * (row - 1);
   const cellNumberStr = String(cellNumber).padStart(3, "0");
   return `Name_${cellNumberStr}`;
 }
 
-function getStartDateFieldName(registryCell) {
+function getStartDateFieldName(recordCell) {
   const NUMBER_OF_COLUMNS = 10;
-  const { column, row } = registryCell;
+  const { column, row } = recordCell;
 
   const cellNumber = column + (column - 1) + NUMBER_OF_COLUMNS * (row - 1);
   const cellNumberStr = String(cellNumber).padStart(3, "0");
   return `Date_${cellNumberStr}`;
 }
 
-function getEndDateFieldName(registryCell) {
+function getEndDateFieldName(recordCell) {
   const NUMBER_OF_COLUMNS = 10;
-  const { column, row } = registryCell;
+  const { column, row } = recordCell;
 
   const cellNumber = column * 2 + NUMBER_OF_COLUMNS * (row - 1);
   const cellNumberStr = String(cellNumber).padStart(3, "0");
   return `Date_${cellNumberStr}`;
 }
 
-function getRegistryFieldNames(registryCell) {
+function getRecordFieldNames(recordCell) {
   return {
-    publisher: getPublisherFieldName(registryCell),
-    startDate: getStartDateFieldName(registryCell),
-    endDate: getEndDateFieldName(registryCell),
+    publisher: getPublisherFieldName(recordCell),
+    startDate: getStartDateFieldName(recordCell),
+    endDate: getEndDateFieldName(recordCell),
   };
 }
 
 module.exports = {
   fillPDF,
   fillTerritoryNumberToPDF,
-  fillRegistryToPDF,
+  fillRecordToPDF,
   getTerritoryFieldName,
   getPublisherFieldName,
   getStartDateFieldName,
   getEndDateFieldName,
-  getRegistryFieldNames,
+  getRecordFieldNames,
 };

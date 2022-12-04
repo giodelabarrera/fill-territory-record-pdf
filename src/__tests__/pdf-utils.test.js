@@ -1,7 +1,7 @@
 const {
   getEndDateFieldName,
   getPublisherFieldName,
-  getRegistryFieldNames,
+  getRecordFieldNames,
   getStartDateFieldName,
   getTerritoryFieldName,
 } = require("../pdf-utils.js");
@@ -43,33 +43,33 @@ test("should get end date field name", () => {
   expect(getEndDateFieldName({ column: 2, row: 27 })).toEqual("Date_264");
 });
 
-test("should get registry cell meta", () => {
-  expect(getRegistryFieldNames({ column: 1, row: 12 })).toEqual({
+test("should get record cell meta", () => {
+  expect(getRecordFieldNames({ column: 1, row: 12 })).toEqual({
     publisher: "Name_056",
     startDate: "Date_111",
     endDate: "Date_112",
   });
-  expect(getRegistryFieldNames({ column: 2, row: 12 })).toEqual({
+  expect(getRecordFieldNames({ column: 2, row: 12 })).toEqual({
     publisher: "Name_057",
     startDate: "Date_113",
     endDate: "Date_114",
   });
-  expect(getRegistryFieldNames({ column: 3, row: 12 })).toEqual({
+  expect(getRecordFieldNames({ column: 3, row: 12 })).toEqual({
     publisher: "Name_058",
     startDate: "Date_115",
     endDate: "Date_116",
   });
-  expect(getRegistryFieldNames({ column: 4, row: 12 })).toEqual({
+  expect(getRecordFieldNames({ column: 4, row: 12 })).toEqual({
     publisher: "Name_059",
     startDate: "Date_117",
     endDate: "Date_118",
   });
-  expect(getRegistryFieldNames({ column: 5, row: 12 })).toEqual({
+  expect(getRecordFieldNames({ column: 5, row: 12 })).toEqual({
     publisher: "Name_060",
     startDate: "Date_119",
     endDate: "Date_120",
   });
-  expect(getRegistryFieldNames({ column: 3, row: 27 })).toEqual({
+  expect(getRecordFieldNames({ column: 3, row: 27 })).toEqual({
     publisher: "Name_133",
     startDate: "Date_265",
     endDate: "Date_266",

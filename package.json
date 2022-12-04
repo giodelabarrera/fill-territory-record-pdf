@@ -1,30 +1,29 @@
 {
-  "name": "@gdr/create-registry-pdf",
-  "version": "1.0.0",
-  "description": "CLI for from a registry csv fill a registry pdf",
+  "name": "fill-territory-record-pdf",
+  "version": "0.0.1",
+  "description": "CLI for fill territory record form pdf from a csv",
   "engines": {
     "node": ">=18.2.1",
     "npm": ">=8"
   },
   "main": "src/index.js",
   "bin": {
-    "gdr-create-registry-pdf": "./bin/gdr-create-registry-pdf.js"
+    "fill-territory-record-pdf": "./bin/fill-territory-record-pdf.js"
   },
   "scripts": {
     "start": "node src",
-    "test": "jest",
-    "build": "swc src -o output.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/giodelabarrera/rubi-oeste-registry-pdf.git"
+    "url": "git+https://github.com/giodelabarrera/fill-territory-record-pdf.git"
   },
   "author": "Giorgio De la Barrera <giodelabarrera@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/giodelabarrera/rubi-oeste-registry-pdf/issues"
+    "url": "https://github.com/giodelabarrera/fill-territory-record-pdf/issues"
   },
-  "homepage": "https://github.com/giodelabarrera/rubi-oeste-registry-pdf#readme",
+  "homepage": "https://github.com/giodelabarrera/fill-territory-record-pdf#readme",
   "dependencies": {
     "@fast-csv/parse": "^4.3.6",
     "pdf-lib": "^1.17.1"

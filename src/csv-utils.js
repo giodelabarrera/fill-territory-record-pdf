@@ -4,10 +4,10 @@ const { createNumbersFromTo } = require("./utils.js");
 
 async function mapCSVRowsToMap(csvStream, fromTerritory, toTerritory) {
   return new Promise((res, rej) => {
-    const registryMap = new Map();
+    const recordMap = new Map();
     createNumbersFromTo(fromTerritory, toTerritory).forEach(
       (territoryNumber) => {
-        registryMap.set(territoryNumber, []);
+        recordMap.set(territoryNumber, []);
       }
     );
 
@@ -22,9 +22,9 @@ async function mapCSVRowsToMap(csvStream, fromTerritory, toTerritory) {
           finished_at,
         } = row;
         const territory = Number(originalTerritory);
-        if (registryMap.has(territory)) {
-          registryMap.set(territory, [
-            ...registryMap.get(territory),
+        if (recordMap.has(territory)) {
+          recordMap.set(territory, [
+            ...recordMap.get(territory),
             {
               publisher,
               startDate: new Date(started_at),
@@ -34,7 +34,7 @@ async function mapCSVRowsToMap(csvStream, fromTerritory, toTerritory) {
         }
       })
       .on("end", () => {
-        res(registryMap);
+        res(recordMap);
       });
   });
 }
