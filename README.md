@@ -1,1 +1,81 @@
-# Fill territory record form pdf
+<div align="center">
+<h1>fill-territory-record-pdf 🗂</h1>
+
+<p>CLI for fill territory record form pdf</p>
+</div>
+
+---
+
+## Usage
+
+```bash
+npx fill-territory-record-pdf [CSVFILE] [FROM_TERRITORY]
+```
+
+### Arguments
+
+`CSVFILE`
+
+- type: `String`
+
+Territory record CSV file to read and fill pdf
+
+```bash
+# Run command and read csv from home
+npx fill-territory-record-pdf ~/territory-record.csv
+
+# Run command and read csv from current dir
+npx fill-territory-record-pdf my-record.csv
+
+# Run command and read csv from your custom path
+npx fill-territory-record-pdf /my/custom/path/record.csv
+```
+
+##### CSV structure
+
+**Fields**
+
+| field name    | type     | required       | description           |
+| ------------- | -------- | -------------- | --------------------- |
+| `territory`   | `Number` | `required`     | Territory number      |
+| `publisher`   | `String` | `required`     | Publisher name        |
+| `started_at`  | `Date`   | `required`     | Start date of record  |
+| `finished_at` | `Date`   | `not required` | Finish date of record |
+
+**Example**
+
+| **territory** | **publisher**   | **started_at** | **finished_at** |
+| ------------- | --------------- | -------------- | --------------- |
+| 1             | Dennis Schulist | 2018-10-11     | 2019-06-02      |
+| 2             | Kurtis Weissnat | 2019-10-17     |                 |
+
+`FROM_TERRITORY`
+
+- type: `Number`
+
+Number of territory number to consider in CSV file and fill pdf
+
+```bash
+# Run command and consider territory record from number 1
+npx fill-territory-record-pdf [CSV_FILE] 1
+
+# Run command and consider territory record from number 11
+npx fill-territory-record-pdf [CSV_FILE] 11
+```
+
+### Flags
+
+`--outDir`
+
+- default: `process.cwd()` current folder of command is executed
+- type: `String`
+
+Specify an output folder for filled territory record pdf
+
+```bash
+# Run command and specify downloads folder as output for pdf
+npx fill-territory-record-pdf [CSV_FILE] [FROM_TERRITORY] --outDir '~/Downloads'
+
+# Run command and specify folder as output for pdf
+npx fill-territory-record-pdf [CSV_FILE] [FROM_TERRITORY] --outDir './2022-31-08'
+```
