@@ -56,7 +56,7 @@ It should have the following header fields
 
 - type: `Number`
 
-Number of territory number to consider in CSV file and fill pdf
+Initial territory number to consider from CSV file and fill pdf
 
 ```bash
 # Run command and consider territory record from number 1
