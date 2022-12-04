@@ -9,12 +9,10 @@
 ## Usage
 
 ```bash
-npx fill-territory-record-pdf [CSVFILE] [FROM_TERRITORY]
+npx fill-territory-record-pdf [CSVFILE] [FROM_TERRITORY] --outDir <value>
 ```
 
-### Arguments
-
-`CSVFILE`
+### `CSVFILE`
 
 - type: `String`
 
@@ -31,7 +29,9 @@ npx fill-territory-record-pdf my-record.csv
 npx fill-territory-record-pdf /my/custom/path/record.csv
 ```
 
-##### CSV structure
+#### CSV structure
+
+It should have the following header fields
 
 **Fields**
 
@@ -44,12 +44,15 @@ npx fill-territory-record-pdf /my/custom/path/record.csv
 
 **Example**
 
+`record.csv`
+
 | **territory** | **publisher**   | **started_at** | **finished_at** |
 | ------------- | --------------- | -------------- | --------------- |
 | 1             | Dennis Schulist | 2018-10-11     | 2019-06-02      |
 | 2             | Kurtis Weissnat | 2019-10-17     |                 |
 
-`FROM_TERRITORY`
+
+### `FROM_TERRITORY`
 
 - type: `Number`
 
@@ -63,9 +66,7 @@ npx fill-territory-record-pdf [CSV_FILE] 1
 npx fill-territory-record-pdf [CSV_FILE] 11
 ```
 
-### Flags
-
-`--outDir`
+### `--outDir`
 
 - default: `process.cwd()` current folder of command is executed
 - type: `String`
