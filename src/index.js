@@ -13,7 +13,7 @@ async function createFilledTerritoryRecordPDF(
 ) {
   const csvStream = createReadStream(csvPath);
   const toTerritory = fromTerritory + 9;
-  const registryMap = await mapCSVRowsToMap(
+  const recordMap = await mapCSVRowsToMap(
     csvStream,
     fromTerritory,
     toTerritory
@@ -21,7 +21,7 @@ async function createFilledTerritoryRecordPDF(
 
   const pdfBuffer = await readFile(join(__dirname, "assets", "S-13_S.pdf"));
   const document = await PDFDocument.load(pdfBuffer);
-  fillPDF(document, registryMap);
+  fillPDF(document, recordMap);
   await writeFile(
     join(outDir, `S-13_S_${fromTerritory}_${toTerritory}.pdf`),
     await document.save()
