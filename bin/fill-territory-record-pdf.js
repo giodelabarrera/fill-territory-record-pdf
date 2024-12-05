@@ -8,5 +8,6 @@ const parsedArgs = yargsParser(args);
 
 const csvPath = parsedArgs._[0];
 const outDir = parsedArgs.outDir || process.cwd();
+const serviceYear = parsedArgs.serviceYear || ''
 
-createFilledTerritoryRecordPDF(csvPath, outDir);
+createFilledTerritoryRecordPDF(csvPath, outDir, serviceYear);

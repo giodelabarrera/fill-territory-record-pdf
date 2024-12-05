@@ -2,11 +2,11 @@ const { PDFDocument } = require("pdf-lib");
 const { writeFile, readFile } = require("fs/promises");
 const { join } = require("path");
 
-async function createFilledPDFs(pagesMap, outDir = ".") {
+async function createFilledPDFs(pagesMap, outDir = ".", serviceYear) {
   for (const [page, recordMap] of pagesMap) {
     const pdfBuffer = await readFile(join(__dirname, "assets", "S-13_S.pdf"));
     const document = await PDFDocument.load(pdfBuffer);
-    fillPDF(document, recordMap);
+    fillPDF(document, recordMap, serviceYear);
     await writeFile(
       join(outDir, `filled-S-13_S_${page}.pdf`),
       await document.save()
@@ -14,9 +14,9 @@ async function createFilledPDFs(pagesMap, outDir = ".") {
   }
 }
 
-function fillPDF(document, recordMap) {
+function fillPDF(document, recordMap, serviceYear) {
   // service year field
-  const serviceYearField = "2024"; // TODO: get from params
+  const serviceYearField = serviceYear;
   fillServiceYearField(document, serviceYearField);
 
   for (const [territoryNumber, records] of recordMap) {
