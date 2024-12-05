@@ -1,59 +1,83 @@
-const { createNumbersFromTo } = require("./utils.js");
+const { PDFDocument } = require("pdf-lib");
+const { writeFile, readFile } = require("fs/promises");
+const { join } = require("path");
+
+async function createFilledPDFs(pagesMap, outDir = ".") {
+  for (const [page, recordMap] of pagesMap) {
+    const pdfBuffer = await readFile(join(__dirname, "assets", "S-13_S.pdf"));
+    const document = await PDFDocument.load(pdfBuffer);
+    fillPDF(document, recordMap);
+    await writeFile(
+      join(outDir, `filled-S-13_S_${page}.pdf`),
+      await document.save()
+    );
+  }
+}
 
 function fillPDF(document, recordMap) {
-  const territoryNumbers = Array.from(recordMap.keys());
-  const territoryIndices = createNumbersFromTo(1, recordMap.size);
+  // service year field
+  const serviceYearField = "2024"; // TODO: get from params
+  fillServiceYearField(document, serviceYearField);
 
-  // fill territory number
-  territoryNumbers.forEach((territoryNumber, index) => {
-    fillTerritoryNumberToPDF(
-      document,
-      territoryIndices[index],
-      territoryNumber
-    );
-  });
+  for (const [territoryNumber, records] of recordMap) {
+    const row = mapValueToIndex(territoryNumber);
 
-  // fill records
-  territoryNumbers.forEach((territoryNumber, index) => {
-    const records = recordMap.get(territoryNumber);
-    const isSecondPage = territoryIndices[index] > 5;
-    const column = isSecondPage
-      ? territoryIndices[index] - 5
-      : territoryIndices[index];
+    // territory number
+    fillTerritoryNumberField(document, row, territoryNumber);
 
-    records.forEach((record, index) => {
-      const ROWS_BY_PAGE = 25;
-      if (index < ROWS_BY_PAGE) {
-        const row = isSecondPage ? ROWS_BY_PAGE + index + 1 : index + 1;
-        const recordCell = { column, row };
-        fillRecordToPDF(document, recordCell, record);
-      }
+    // records
+    records.forEach((record, i) => {
+      const column = i + 1;
+      const recordCell = { row, column };
+      fillRecordField(document, recordCell, record);
     });
-  });
+  }
 }
 
-function fillTerritoryNumberToPDF(document, territoryIndex, territoryNumber) {
-  const fieldName = getTerritoryFieldName(territoryIndex);
+function mapValueToIndex(value) {
+  const remainder = value % 20;
+  return remainder === 0 ? 20 : remainder;
+}
+
+function fillServiceYearField(document, value) {
+  const TEXT_FIELD = "service_year";
+
+  const form = document.getForm();
+  const field = form.getField(TEXT_FIELD);
+  field.setText(String(value));
+}
+
+function fillTerritoryNumberField(document, territoryIndex, value) {
+  const TEXT_FIELD = "territory_number";
+
+  const fieldName = `${TEXT_FIELD}_${territoryIndex}`;
   const form = document.getForm();
   const field = form.getField(fieldName);
-  field.setText(String(territoryNumber));
+  field.setText(String(value));
 }
 
-function fillRecordToPDF(document, recordCell, record) {
-  const fieldNames = getRecordFieldNames(recordCell);
+function fillRecordField(document, recordCell, record) {
   const form = document.getForm();
+  const fieldNames = getRecordFieldNames(recordCell);
 
   const publisherField = form.getField(fieldNames.publisher);
   publisherField.setText(String(record.publisher));
 
-  const startDateField = form.getField(fieldNames.startDate);
+  const startAtField = form.getField(fieldNames.startAt);
+  startAtField.setText(formatRecordDate(record.startAt));
 
-  startDateField.setText(formatRecordDate(record.startDate));
-
-  if (record.endDate) {
-    const endDateField = form.getField(fieldNames.endDate);
-    endDateField.setText(formatRecordDate(record.endDate));
+  if (record.finishedAt) {
+    const finishedAtField = form.getField(fieldNames.finishedAt);
+    finishedAtField.setText(formatRecordDate(record.finishedAt));
   }
+}
+
+function getRecordFieldNames(recordCell) {
+  return {
+    publisher: `assigned_to_${recordCell.row}_${recordCell.column}_publisher`,
+    startAt: `assigned_to_${recordCell.row}_${recordCell.column}_started_at`,
+    finishedAt: `assigned_to_${recordCell.row}_${recordCell.column}_finished_at`,
+  };
 }
 
 function formatRecordDate(date) {
@@ -64,52 +88,4 @@ function formatRecordDate(date) {
   }).format(date);
 }
 
-function getTerritoryFieldName(territoryNumber) {
-  return `Terr_${territoryNumber}`;
-}
-
-function getPublisherFieldName(recordCell) {
-  const NUMBER_OF_COLUMNS = 5;
-  const { column, row } = recordCell;
-
-  const cellNumber = column + NUMBER_OF_COLUMNS * (row - 1);
-  const cellNumberStr = String(cellNumber).padStart(3, "0");
-  return `Name_${cellNumberStr}`;
-}
-
-function getStartDateFieldName(recordCell) {
-  const NUMBER_OF_COLUMNS = 10;
-  const { column, row } = recordCell;
-
-  const cellNumber = column + (column - 1) + NUMBER_OF_COLUMNS * (row - 1);
-  const cellNumberStr = String(cellNumber).padStart(3, "0");
-  return `Date_${cellNumberStr}`;
-}
-
-function getEndDateFieldName(recordCell) {
-  const NUMBER_OF_COLUMNS = 10;
-  const { column, row } = recordCell;
-
-  const cellNumber = column * 2 + NUMBER_OF_COLUMNS * (row - 1);
-  const cellNumberStr = String(cellNumber).padStart(3, "0");
-  return `Date_${cellNumberStr}`;
-}
-
-function getRecordFieldNames(recordCell) {
-  return {
-    publisher: getPublisherFieldName(recordCell),
-    startDate: getStartDateFieldName(recordCell),
-    endDate: getEndDateFieldName(recordCell),
-  };
-}
-
-module.exports = {
-  fillPDF,
-  fillTerritoryNumberToPDF,
-  fillRecordToPDF,
-  getTerritoryFieldName,
-  getPublisherFieldName,
-  getStartDateFieldName,
-  getEndDateFieldName,
-  getRecordFieldNames,
-};
+module.exports = { createFilledPDFs };
