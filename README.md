@@ -66,3 +66,16 @@ npx fill-territory-record-pdf [CSV_FILE] --outDir '~/Downloads'
 # Run command and specify folder as output for pdf
 npx fill-territory-record-pdf [CSV_FILE] --outDir './2022-31-08'
 ```
+
+### `--serviceYear`
+
+- default: `''` 
+- type: `String`
+
+Allow to modify the service year field in the pdf
+
+```bash
+npx fill-territory-record-pdf [CSV_FILE] --outDir ~/Downloads --serviceYear '2023/2024'
+
+npx fill-territory-record-pdf [CSV_FILE] --outDir ./2022-31-08 --serviceYear '2024/2025'
+```
