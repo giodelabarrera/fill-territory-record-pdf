@@ -22,7 +22,7 @@ function createServiceYearField(document) {
   textField.addToPage(document.getPage(0), {
     x: 133,
     y: 746,
-    width: 80,
+    width: 160,
     height: 16,
     borderWidth: 0,
   });
