@@ -9,7 +9,7 @@
 ## Usage
 
 ```bash
-npx fill-territory-record-pdf [CSVFILE] [FROM_TERRITORY] --outDir <value>
+npx fill-territory-record-pdf [CSVFILE] --outDir <value>
 ```
 
 ### `CSVFILE`
@@ -52,20 +52,6 @@ It should have the following header fields
 | 2             | Kurtis Weissnat | 2019-10-17     |                 |
 
 
-### `FROM_TERRITORY`
-
-- type: `Number`
-
-Initial territory number to consider from CSV file and fill pdf
-
-```bash
-# Run command and consider territory record from number 1
-npx fill-territory-record-pdf [CSV_FILE] 1
-
-# Run command and consider territory record from number 11
-npx fill-territory-record-pdf [CSV_FILE] 11
-```
-
 ### `--outDir`
 
 - default: `process.cwd()` current folder of command is executed
@@ -75,8 +61,8 @@ Specify an output folder for filled territory record pdf
 
 ```bash
 # Run command and specify downloads folder as output for pdf
-npx fill-territory-record-pdf [CSV_FILE] [FROM_TERRITORY] --outDir '~/Downloads'
+npx fill-territory-record-pdf [CSV_FILE] --outDir '~/Downloads'
 
 # Run command and specify folder as output for pdf
-npx fill-territory-record-pdf [CSV_FILE] [FROM_TERRITORY] --outDir './2022-31-08'
+npx fill-territory-record-pdf [CSV_FILE] --outDir './2022-31-08'
 ```
