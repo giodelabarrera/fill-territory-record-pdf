@@ -7,7 +7,7 @@ async function createFilledTerritoryRecordPDF(csvPath, outDir = ".") {
   const csvStream = createReadStream(csvPath);
   const pagesMap = await mapCSVRowsToPagesMap(csvStream);
 
-  await createFilledPDFs(pagesMap, (outDir = "."));
+  await createFilledPDFs(pagesMap, outDir);
 }
 
 module.exports = { createFilledTerritoryRecordPDF };

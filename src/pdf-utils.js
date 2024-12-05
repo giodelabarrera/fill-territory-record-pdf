@@ -25,6 +25,11 @@ function fillPDF(document, recordMap) {
     // territory number
     fillTerritoryNumberField(document, row, territoryNumber);
 
+    // last date completed
+    if (records.length === 4 && records[3].finishedAt) {
+      fillLastDateCompletedField(document, row, records[3].finishedAt);
+    }
+
     // records
     records.forEach((record, i) => {
       const column = i + 1;
@@ -45,6 +50,15 @@ function fillServiceYearField(document, value) {
   const form = document.getForm();
   const field = form.getField(TEXT_FIELD);
   field.setText(String(value));
+}
+
+function fillLastDateCompletedField(document, territoryIndex, lastDate) {
+  const TEXT_FIELD = "last_date_completed";
+
+  const fieldName = `${TEXT_FIELD}_${territoryIndex}`;
+  const form = document.getForm();
+  const field = form.getField(fieldName);
+  field.setText(formatRecordDate(lastDate));
 }
 
 function fillTerritoryNumberField(document, territoryIndex, value) {
