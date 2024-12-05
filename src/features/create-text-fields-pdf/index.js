@@ -11,10 +11,7 @@ async function createTextFieldsPdf(outDir = ".") {
   createLastDateCompletedFields(document);
   createAssignedToFields(document);
 
-  await writeFile(
-    join(outDir, `created-text-fields-S-13_S.pdf`),
-    await document.save()
-  );
+  await writeFile(join(outDir, `S-13_S.pdf`), await document.save());
 }
 
 function createServiceYearField(document) {
@@ -186,4 +183,4 @@ function createFinishedAtField(document, row, column) {
   });
 }
 
-createTextFieldsPdf();
+createTextFieldsPdf("./src/assets");
