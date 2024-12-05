@@ -61,10 +61,10 @@ Specify an output folder for filled territory record pdf
 
 ```bash
 # Run command and specify downloads folder as output for pdf
-npx fill-territory-record-pdf [CSV_FILE] --outDir '~/Downloads'
+npx fill-territory-record-pdf [CSV_FILE] --outDir ~/Downloads
 
 # Run command and specify folder as output for pdf
-npx fill-territory-record-pdf [CSV_FILE] --outDir './2022-31-08'
+npx fill-territory-record-pdf [CSV_FILE] --outDir ./2022-31-08
 ```
 
 ### `--serviceYear`
