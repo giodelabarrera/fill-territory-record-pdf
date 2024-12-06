@@ -20,6 +20,7 @@ function fillPDF(document, recordMap, serviceYear) {
   fillServiceYearField(document, serviceYearField);
 
   for (const [territoryNumber, records] of recordMap) {
+    debugger;
     const row = mapValueToIndex(territoryNumber);
 
     // territory number
@@ -32,6 +33,7 @@ function fillPDF(document, recordMap, serviceYear) {
 
     // records
     records.forEach((record, i) => {
+      debugger;
       const column = i + 1;
       const recordCell = { row, column };
       fillRecordField(document, recordCell, record);
@@ -71,14 +73,15 @@ function fillTerritoryNumberField(document, territoryIndex, value) {
 }
 
 function fillRecordField(document, recordCell, record) {
+  debugger;
   const form = document.getForm();
   const fieldNames = getRecordFieldNames(recordCell);
 
   const publisherField = form.getField(fieldNames.publisher);
   publisherField.setText(String(record.publisher));
 
-  const startAtField = form.getField(fieldNames.startAt);
-  startAtField.setText(formatRecordDate(record.startAt));
+  const startedAtField = form.getField(fieldNames.startedAt);
+  startedAtField.setText(formatRecordDate(record.startedAt));
 
   if (record.finishedAt) {
     const finishedAtField = form.getField(fieldNames.finishedAt);
@@ -89,7 +92,7 @@ function fillRecordField(document, recordCell, record) {
 function getRecordFieldNames(recordCell) {
   return {
     publisher: `assigned_to_${recordCell.row}_${recordCell.column}_publisher`,
-    startAt: `assigned_to_${recordCell.row}_${recordCell.column}_started_at`,
+    startedAt: `assigned_to_${recordCell.row}_${recordCell.column}_started_at`,
     finishedAt: `assigned_to_${recordCell.row}_${recordCell.column}_finished_at`,
   };
 }
