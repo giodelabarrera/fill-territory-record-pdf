@@ -37,10 +37,10 @@ It should have the following header fields
 
 | field name    | type     | required       | description           |
 | ------------- | -------- | -------------- | --------------------- |
-| `territory`   | `Number` | `required`     | Territory number      |
-| `publisher`   | `String` | `required`     | Publisher name        |
-| `started_at`  | `Date`   | `required`     | Start date of record  |
-| `finished_at` | `Date`   | `not required` | Finish date of record |
+| `territory`   | `number` | `required`     | Territory number      |
+| `publisher`   | `string` | `required`     | Publisher name        |
+| `started_at`  | `'yyy-mm-dd'`   | `required`     | Start date of record  |
+| `finished_at` | `'yyy-mm-dd'`   |                | Finish date of record |
 
 **Example**
 
